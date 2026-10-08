@@ -14,3 +14,8 @@ scaleprobe-key.txt
 scaleprobe-token.txt
 s400-key.txt
 *.key
+
+# ===== 签名与产物：绝不进版本库 =====
+keystore/
+keystore.properties
+dist/
