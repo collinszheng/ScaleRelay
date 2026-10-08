@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  自适应图标背景层：薄荷竖向渐变。
+
+  颜色取自 WeightDiary 设计规范的主色 #3DD68C（它自己也是从 #34C759 改过来的，
+  理由是后者实为 iOS 系统绿、偏黄偏亮）。深浅两端由主色推得。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path android:pathData="M0,0 h108 v108 h-108 z">
+        <aapt:attr xmlns:aapt="http://schemas.android.com/aapt" name="android:fillColor">
+            <gradient
+                android:startX="54"
+                android:startY="0"
+                android:endX="54"
+                android:endY="108"
+                android:type="linear">
+                <item android:offset="0" android:color="#FF56E0A0" />
+                <item android:offset="1" android:color="#FF2FBF7A" />
+            </gradient>
+        </aapt:attr>
+    </path>
+</vector>

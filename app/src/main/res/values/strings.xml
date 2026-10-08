@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ScaleRelay</string>
+
+    <string name="notif_channel_name">秤的监听</string>
+    <string name="notif_channel_desc">在有体重数据写入时显示状态</string>
+    <string name="notif_title">ScaleRelay 正在监听体脂秤</string>
+    <string name="action_stop">停止</string>
+
+    <string name="rationale_title">ScaleRelay 权限说明</string>
+    <string name="rationale_body">ScaleRelay 会把你在米家体脂秤上称出的**体重**写入「健康数据共享」，好让体重日记这类应用读到它。\n\n它只申请写入体重这一项，不读取任何健康数据，也不联网。\n\n登录令牌只保存在本机，不会上传。</string>
+</resources>

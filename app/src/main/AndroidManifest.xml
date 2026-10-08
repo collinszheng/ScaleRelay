@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+      ===== 蓝牙 =====
+      usesPermissionFlags="neverForLocation" 是必须的。
+      不加它，Android 12+ 会把 BLUETOOTH_SCAN 当成「可用于推断位置」，
+      于是要求同时持有 ACCESS_FINE_LOCATION 且定位开关打开，否则扫描**静默空转不报错**。
+      本 App 只连接用户自己填了 MAC 的那台秤，不做位置推断，所以这个声明是诚实的。
+    -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
+    <!-- ===== 前台服务：常驻监听秤 ===== -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- Android 14+ 要求为 connectedDevice 类型单独声明这个权限 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
+    <!-- Android 13+ 通知权限。没有它常驻通知不显示，部分 ROM 会因此杀掉前台服务 -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!--
+      ===== Health Connect =====
+      **只申请 WRITE_WEIGHT 一项。**
+
+      三工具方案 §8.4.7 要求 6 项（体水分 / 骨量 / 去脂体重 / 基础代谢 / 体重 / 体脂率），
+      但 WeightDiary 的数据模型只有「体重 + 体脂率」，其余四类它根本不读 ——
+      申请了也没有出口，只会扩大授权面。
+
+      体脂率也不申请：那需要移植 openScale 的 GPL 公式（第二处 GPL 接触点），
+      本轮明确不做（只写体重）。
+    -->
+    <uses-permission android:name="android.permission.health.WRITE_WEIGHT" />
+
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
+
+    <!--
+      Health Connect 的包名查询。
+      本机 HC 是系统内置（com.android.healthconnect.controller），
+      但 Android 13 及以下要单独安装 Google 那个包，所以两个都声明。
+    -->
+    <queries>
+        <package android:name="com.google.android.apps.healthdata" />
+        <package android:name="com.android.healthconnect.controller" />
+    </queries>
+
+    <application
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ScaleRelay">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+          ⚠️ Health Connect 要求申请权限的 App **必须**支持 rationale intent，
+          否则 HC 会直接 finishing、权限弹窗根本不出现 —— 用户看到的是
+          「点那一行什么也没发生」。这不是上架合规问题，是**功能性问题**，踩过。
+
+          两个 intent-filter 都是必需的，四个字面量逐一核对自官方示例：
+            1. androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE
+            2. android.intent.action.VIEW_PERMISSION_USAGE + HEALTH_PERMISSIONS category
+        -->
+        <activity
+            android:name=".PermissionsRationaleActivity"
+            android:exported="true"
+            android:label="@string/rationale_title">
+            <intent-filter>
+                <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW_PERMISSION_USAGE" />
+                <category android:name="android.intent.category.HEALTH_PERMISSIONS" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".service.ScaleMonitorService"
+            android:exported="false"
+            android:foregroundServiceType="connectedDevice" />
+    </application>
+
+</manifest>

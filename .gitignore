@@ -1,0 +1,16 @@
+.gradle/
+build/
+local.properties
+.idea/
+*.iml
+.DS_Store
+captures/
+.externalNativeBuild/
+.cxx/
+
+# ===== 密钥：绝不进版本库 =====
+# S400 的 login token 与 bind key。泄露它等于让任何人都能连上你家的秤。
+scaleprobe-key.txt
+scaleprobe-token.txt
+s400-key.txt
+*.key

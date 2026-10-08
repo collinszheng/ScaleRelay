@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  通知栏小图标。必须是**单色 alpha 图形** —— Android 会把它当蒙版着色，
+  彩色图标在这里只会变成一坨白块。
+
+  形状：一条横向圆角卡片 + 一条折线（与 WeightDiary 的图标语义呼应，但简化到
+  24dp 下还能看清的程度）。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- 卡片轮廓 -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M4,6 h16 a2,2 0 0 1 2,2 v8 a2,2 0 0 1 -2,2 h-16 a2,2 0 0 1 -2,-2 v-8 a2,2 0 0 1 2,-2 z M4,8 v8 h16 v-8 z" />
+    <!-- 折线 -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M6,14 l3,-3 l2.5,2 l4,-4.5 l1.5,1.4 l-5.4,6.1 l-2.6,-2 l-2,2 z" />
+</vector>

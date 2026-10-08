@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      只固定为浅色，不跟随系统深色 —— 与 WeightDiary 的决策一致（那边是决策 C1）。
+      界面颜色全部走 ui/theme 的 CompositionLocal token，将来要加深色只需在
+      ScaleRelayTheme 里按 isSystemInDarkTheme() 选一套，业务代码不用动。
+    -->
+    <style name="Theme.ScaleRelay" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>
